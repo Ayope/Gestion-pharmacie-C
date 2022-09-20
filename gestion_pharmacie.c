@@ -115,10 +115,10 @@ void ProduitList(){
 }
 
 void updateQuantite(char code[max], int NewQuantite, char operation){
-    if(strcmp(operation, '-')){
-        product[rech(testcode)].quantity -= NewQuantite;
-    } else if(strcmp(operation, '+')){
-        product[rech(testcode)].quantity += NewQuantite;
+    if(operation =='-'){
+        product[rech(code)].quantity -= NewQuantite;
+    } else if(operation == '+'){
+        product[rech(code)].quantity += NewQuantite;
     }
     
 
@@ -232,7 +232,7 @@ void recherche(){
 void EtatDuStock(){
         int var;
         printf("------------------------------------------------------------------------------------------\n");
-        printf("|   Name       |       Code      |     Quantite       |    Price      |     Price TTC |\n");
+        printf("|   Name            |       Code             |     Quantite             |    Price            |     Price TTC |\n");
         printf("------------------------------------------------------------------------------------------\n");
         
         for (int j = 0; j < varproducts; j++)
@@ -253,17 +253,17 @@ void EtatDuStock(){
 void alimenterStock(){
     char testcode[max];
     int AddQuantite;
-    printf("Enter le code de votre produit");
+    printf("Enter le code de votre produit: ");
     scanf("%s", &testcode);
 
     while(rech(testcode) < 0){ // Be sure if the product exist
-    printf("le produit n'existe pas!\n");
-    printf("Entrer le code de produit a achete: ");
-    scanf("%s", &testcode);
+        printf("le produit n'existe pas!\n");
+        printf("Entrer le code de produit a achete: ");
+        scanf("%s", &testcode);
     }
 
     printf("Entrer la quantite que voulez vous ajouter: ");
-    scanf("%d", AddQuantite);
+    scanf("%d", &AddQuantite);
     updateQuantite(testcode, AddQuantite, '+');
 }
 
@@ -275,12 +275,11 @@ void alimenterStock(){
 
 int main(){
     addProduct(2);
-    EtatDuStock();
-    // ProduitList();
-    // achete();
-    // ProduitList();
-    // achete();
-    // ProduitList();
+    ProduitList();
+    alimenterStock();
+    ProduitList();
+    alimenterStock();
+    ProduitList();
 
     //printf("________________-----_________________\n");
     // switch(){
