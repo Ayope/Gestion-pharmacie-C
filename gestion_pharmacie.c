@@ -127,11 +127,10 @@ void produitList(){
         }
     }
 
-    printf("------------------------------------------------------------------------------------------\n");
-    printf("   Name    |    Code    |    Quantite    |    Price    |     Price TTC     \t|\n");
-    printf("------------------------------------------------------------------------------------------\n");
     for(int i = 0; i < varproducts; i++){
-        printf("   %s           %s          %d           %.2f DH          %.2f DH TTC\n", product[i].name, product[i].code, product[i].quantity, product[i].price, product[i].price + ((product[i].price * 0.15)));
+        printf("------------------------------------------------------------------------------------------\n");
+        printf("|Name: %s |Code: %s |Quantite: %d |Price: %.2f DH |Price TTC: %.2f DH TTC |\n", product[i].name, product[i].code, product[i].quantity, product[i].price, product[i].price + ((product[i].price * 0.15)));
+        printf("------------------------------------------------------------------------------------------\n");
     }
 }
 
@@ -167,6 +166,12 @@ void achete(){
         scanf("%s", &testcode);
     }
 
+    printf("Le produit est disponible!\n");
+
+    printf("------------------------------------------------------------------------------------------\n");
+    printf("|Name: %s |Code: %s |Quantite: %d |Price: %.2f DH |Price TTC: %.2f DH TTC |\n", product[rech(testcode)].name, product[rech(testcode)].code, product[rech(testcode)].quantity, product[rech(testcode)].price, product[rech(testcode)].price + ((product[rech(testcode)].price * 0.15)));
+    printf("------------------------------------------------------------------------------------------\n");
+
     printf("Entrer combien de quantite que voulez vous achete: ");
     scanf("%d", &acheteQuantite);
     
@@ -175,7 +180,13 @@ void achete(){
         printf("Entrer combien de quantite voulez vous achete: ");
         scanf("%d", &acheteQuantite);
     }
+    int reponse;
 
+    printf("1-Confirmer le produit\n2-Changer le produit\nEnter: ");
+    scanf("%d", &reponse);
+    if(reponse == 2){
+        achete();
+    }
     // Pour ajouter les infors d'achat a la liste des achats
     for(int i = var_products_achete; i < var_products_achete+1; i++){
         updateQuantite(testcode, acheteQuantite, '-'); // deduire la quantite que le client achete
@@ -196,6 +207,7 @@ void achete(){
         strftime(prodachete[i].date, sizeof(prodachete[i].date), "%d/%m/%Y", t);        
     }
     var_products_achete++;
+    printf("Votre achat est effectue par succe");
 }
 
 //this function "recherche" searching the products by code or quantity using linear search algorithm
@@ -221,9 +233,8 @@ void recherche(){
         int result = rech(testcode); 
 
         printf("-------------------------------------------------------------------------------------------------------\n");
-        printf("   Name       |       Code      |     Quantite       |          Price           |       Price TTC      \n");
+        printf("|Name: %s |Code: %s |Quantite: %d |Price: %.2f DH |Price TTC: %.2f DH TTC |\n", product[result].name, product[result].code, product[result].quantity, product[result].price, product[result].price + ((product[result].price * 0.15)));
         printf("-------------------------------------------------------------------------------------------------------\n");
-        printf("   %s           %s                %d                    %.2f DH           %.2f DH TTC\n", product[result].name, product[result].code, product[result].quantity, product[result].price, product[result].price + ((product[result].price * 0.15)));
     }
     else if (choice == 2){ //list all the products with the quantity you search for
         int var=0;
@@ -232,13 +243,11 @@ void recherche(){
             scanf("%d", &testQuantite);
         }while(testQuantite < 0);
 
-        printf("------------------------------------------------------------------------------------------\n");
-        printf("|   Name       |       Code      |     Quantite       |    Price      |     Price TTC |\n");
-        printf("------------------------------------------------------------------------------------------\n");
-        
         for (int j = 0; j <= varproducts; j++){
             if (product[j].quantity == testQuantite){
-                printf("   %s           %s                %d                    %.2f DH           %.2f DH TTC\n", product[j].name, product[j].code, product[j].quantity, product[j].price, product[j].price + ((product[j].price * 0.15)));
+                printf("------------------------------------------------------------------------------------------\n");
+                printf("|Name: %s |Code: %s |Quantite: %d |Price: %.2f DH |Price TTC: %.2f DH TTC |\n", product[j].name, product[j].code, product[j].quantity, product[j].price, product[j].price + ((product[j].price * 0.15)));
+                printf("------------------------------------------------------------------------------------------\n");
                 var++;
             }
         }
@@ -252,19 +261,15 @@ void recherche(){
 
 void EtatDuStock(){
         int var;
-        printf("------------------------------------------------------------------------------------------\n");
-        printf("|   Name            |       Code             |     Quantite             |    Price            |     Price TTC |\n");
-        printf("------------------------------------------------------------------------------------------\n");
-        
         for (int j = 0; j < varproducts; j++)
         {
-            if (product[j].quantity < 3)
-            {
-                printf("   %s           %s                %d                    %.2f DH           %.2f DH TTC\n", product[j].name, product[j].code, product[j].quantity, product[j].price, product[j].price + ((product[j].price * 0.15)));
+            if (product[j].quantity < 3){
+                printf("------------------------------------------------------------------------------------------\n");
+                printf("|Name: %s |Code: %s |Quantite: %d |Price: %.2f DH |Price TTC: %.2f DH TTC |\n", product[j].name, product[j].code, product[j].quantity, product[j].price, product[j].price + ((product[j].price * 0.15)));
+                printf("------------------------------------------------------------------------------------------\n");
                 var++;
             }
         }
-        
         if(var == 0){
             printf("|                                 NO RESULTS                                          |");
         }
@@ -287,9 +292,10 @@ void alimenterStock(){
     do{    
         printf("Entrer la quantite que voulez vous ajouter: ");
         scanf("%d", &AddQuantite);
-    }while(AddQuantite>0);
+    }while(AddQuantite<0);
 
     updateQuantite(testcode, AddQuantite, '+');
+    printf("la quantite est mise au jour avec succe\n");
 }
 
 // This function gives you the option to delete a product from your list using code 
@@ -308,7 +314,9 @@ void supprimer(){
     for(int i = rech(testcode); i < varproducts - 1; i++){
         product[i] = product[i+1];
     }
-    varproducts--; 
+    varproducts--;
+    
+    printf("Votre produit est supprime avec succe!");
 }
 
 // Show you the statistique of the products in the current day
@@ -384,6 +392,7 @@ void statistique(){
 int main(){
 
 int choix;
+int reponse;
 
 printf("\n================ Application de Gestion de pharmacie ================\n\n");
 do{
@@ -397,29 +406,127 @@ do{
         printf("\t 7  -  Alimenter le stock \n");
         printf("\t 8  -  Supprimer un produit \n");
         printf("\t 9  -  Statistique de vente \n");
-        printf("\t 10 -  Quitter L'\application\n\n");
+        printf("\t 0  -  Quitter L'application\n\n");
         printf("Entrer votre choix : ");
         scanf("%d",&choix);
             
     
-    int n;
+    int n; //number of products to add in option 2
     
     switch(choix){
-        case1:
+        case 1:
+            debut1:
             system("cls");
             addProduct(1);
+            printf("\n1-Repeter l'action\n2-Retourner au Menu\nEntrer votre choix: ");
+            scanf("%d",&reponse);
+            system("cls");
+            if(reponse==1){
+                goto debut1;
+            }
             break;
-        case2:
-            printf("Entrer le numero des produits: ");
+        case 2:
+            debut2:
+        	system("cls");
+            printf("Entrer le numero des produits que voulez vous saisir: ");
             scanf("%d", &n);
+            system("cls");
             addProduct(n);
+            printf("\n1-Repeter l'action\n2-Retourner au Menu\nEntrer votre choix: ");
+            scanf("%d",&reponse);
+            system("cls");
+            if(reponse==1){
+                goto debut2;
+            }
             break;
-        default:
-            printf("votre choix doit etre comprime entre 1 et 10");
+        case 3:
+            debut3:
+            system("cls");
+            produitList();
+            printf("\n1-Repeter l'action\n2-Retourner au menu\nEntrer votre choix: ");
+            scanf("%d",&reponse);
+            system("cls");
+            if(reponse==1){
+                goto debut3;
+            }
+            break;
+        case 4:
+            debut4:
+            system("cls");
+            achete();
+            printf("\n1-Repeter l'action\n2-Retourner au menu\nEntrer votre choix: ");
+            scanf("%d", &reponse);
+            system("cls");
+            if (reponse == 1){
+                goto debut4;
+            }
+            break;
+        case 5:
+            debut5:
+            system("cls");
+            recherche();
+            printf("\n1-Repeter l'action\n2-Retourner au menu\nEntrer votre choix: ");
+            scanf("%d", &reponse);
+            system("cls");
+            if (reponse == 1){
+                goto debut5;
+            }
+            break;
+        case 6:
+            debut6:
+            system("cls");
+            EtatDuStock();
+            printf("\n1-Repeter l'action\n2-Retourner au menu\nEntrer votre choix: ");
+            scanf("%d", &reponse);
+            system("cls");
+            if (reponse == 1){
+                goto debut6;
+            }
+            break;
+        case 7:
+            debut7:
+            system("cls");
+            alimenterStock();
+            printf("\n1-Repeter l'action\n2-Retourner au menu\nEntrer votre choix: ");
+            scanf("%d", &reponse);
+            system("cls");
+            if (reponse == 1){
+                goto debut7;
+            }
+            break;
+        case 8:
+            debut8:
+            system("cls");
+            supprimer();
+            printf("\n1-Repeter l'action\n2-Retourner au menu\nEntrer votre choix: ");
+            scanf("%d", &reponse);
+            system("cls");
+            if (reponse == 1){
+                goto debut8;
+            }
+            break;
+        case 9:
+            debut9:
+            system("cls");
+            statistique();
+            printf("\n1-Repeter l'action\n2-Retourner au menu\nEntrer votre choix: ");
+            scanf("%d", &reponse);
+            system("cls");
+            if (reponse == 1)
+            {
+                goto debut9;
+            }
+            break;
+        case 0 :
+            break;
+        default :
+            system("cls");
+            printf("votre choix doit etre comprime entre 1 et 9\nEnter 1 pour retourner au menu principal: ");
+            scanf("%d", &reponse);
+            system("cls");
             break;
     }
 
-
-}while(choix != 10);
+}while(choix != 0);
     return 0;
 }
