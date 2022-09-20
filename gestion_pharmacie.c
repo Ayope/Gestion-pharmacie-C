@@ -151,10 +151,15 @@ void achete(){
     char testcode[max];
     int acheteQuantite;
 
+    printf("Entrer -1 pour annuler!\n");
+
     printf("Entrer le code de produit a achete: ");
     scanf("%s", &testcode);
-
+    
     while(rech(testcode) < 0){ // Be sure if the product exist
+        if (strcmp(testcode, "-1") == 0){
+            return;
+        }
         printf("le produit n'existe pas!\n");
         printf("Entrer le code de produit a achete: ");
         scanf("%s", &testcode);
@@ -220,11 +225,16 @@ void recherche(){
     
     choice = checkChoice(1, 2, choice);
     
-    if(choice == 1){ //Use the previous "void rech(code)" function to find the index 
+    if(choice == 1){ //Use the previous "void rech(code)" function to find the index
+        printf("Entrer -1 pour annuler!\n");
+
         printf("Entrer le code: ");
         scanf("%s", &testcode);
 
         while(rech(testcode) < 0){
+            if (strcmp(testcode, "-1") == 0){
+                return;
+            }
             printf("le produit n'existe pas!\n");
             printf("Entrer un nouveau code: ");
             scanf("%s", &testcode);
@@ -260,30 +270,34 @@ void recherche(){
 // this function show all the products that's there quantity is less than 3
 
 void EtatDuStock(){
-        int var;
-        for (int j = 0; j < varproducts; j++)
-        {
-            if (product[j].quantity < 3){
-                printf("------------------------------------------------------------------------------------------\n");
-                printf("|Name: %s |Code: %s |Quantite: %d |Price: %.2f DH |Price TTC: %.2f DH TTC |\n", product[j].name, product[j].code, product[j].quantity, product[j].price, product[j].price + ((product[j].price * 0.15)));
-                printf("------------------------------------------------------------------------------------------\n");
-                var++;
-            }
-        }
-        if(var == 0){
-            printf("|                                 NO RESULTS                                          |");
+    int var;
+    for (int j = 0; j < varproducts; j++)
+    {
+        if (product[j].quantity < 3){
+            printf("------------------------------------------------------------------------------------------\n");
+            printf("|Name: %s |Code: %s |Quantite: %d |Price: %.2f DH |Price TTC: %.2f DH TTC |\n", product[j].name, product[j].code, product[j].quantity, product[j].price, product[j].price + ((product[j].price * 0.15)));
+            printf("------------------------------------------------------------------------------------------\n");
+            var++;
         }
     }
+    if(var == 0){
+        printf("|                                 NO RESULTS                                          |");
+    }
+}
 
 // This function gives you the option of add quantity to your stock using the previous updateQuantite function  
 
 void alimenterStock(){
     char testcode[max];
     int AddQuantite;
+    printf("Entrer -1 pour annuler!\n");
     printf("Enter le code de votre produit: ");
     scanf("%s", &testcode);
 
     while(rech(testcode) < 0){
+        if (strcmp(testcode, "-1") == 0){
+            return;
+        }
         printf("le produit n'existe pas!\n");
         printf("Entrer le code de produit a achete: ");
         scanf("%s", &testcode);
@@ -295,17 +309,21 @@ void alimenterStock(){
     }while(AddQuantite<0);
 
     updateQuantite(testcode, AddQuantite, '+');
-    printf("la quantite est mise au jour avec succe\n");
+    printf("la quantite est mise au jour avec succee\n");
 }
 
 // This function gives you the option to delete a product from your list using code 
 
 void supprimer(){
     char testcode[max];
+    printf("Entrer -1 pour annuler!\n");
     printf("Enter le code de produit qui vou voulez supprimer: ");
     scanf("%s", &testcode);
 
     while(rech(testcode) < 0){
+        if (strcmp(testcode, "-1") == 0){
+            return;
+        }
         printf("le produit n'existe pas!\n");
         printf("Entrer le code de produit a supprimer: ");
         scanf("%s", &testcode);
@@ -316,7 +334,7 @@ void supprimer(){
     }
     varproducts--;
     
-    printf("Votre produit est supprime avec succe!");
+    printf("Votre produit est supprime avec succee!");
 }
 
 // Show you the statistique of the products in the current day
