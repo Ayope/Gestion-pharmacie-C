@@ -212,7 +212,7 @@ void achete(){
         strftime(prodachete[i].date, sizeof(prodachete[i].date), "%d/%m/%Y", t);        
     }
     var_products_achete++;
-    printf("Votre achat est effectue par succe");
+    printf("Votre achat est effectue par succee!");
 }
 
 //this function "recherche" searching the products by code or quantity using linear search algorithm
@@ -309,7 +309,7 @@ void alimenterStock(){
     }while(AddQuantite<0);
 
     updateQuantite(testcode, AddQuantite, '+');
-    printf("la quantite est mise au jour avec succee\n");
+    printf("la quantite est mise au jour avec succee!\n");
 }
 
 // This function gives you the option to delete a product from your list using code 
